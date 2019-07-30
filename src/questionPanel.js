@@ -106,7 +106,8 @@ class QuestionPanel extends React.Component {
         action = conditionMet
           ? {
             action: condition.action,
-            target: condition.target
+            target: condition.target,
+            panel: condition.panel
           }
           : action;
       });

@@ -120,7 +120,8 @@ var QuestionPanel = (function (_React$Component) {
 
         action = conditionMet ? {
           action: condition.action,
-          target: condition.target
+          target: condition.target,
+          panel: condition.panel
         } : action;
       });
 
