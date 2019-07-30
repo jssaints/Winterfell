@@ -207,10 +207,15 @@ class QuestionPanel extends React.Component {
       );
     });
 
+    function createMarkup(panelHtml) {
+      return {__html: panelHtml};
+    }
+
     return (
       <div className={this.props.classes.questionPanel}>
         {typeof this.props.panelHeader !== 'undefined'
           || typeof this.props.panelText !== 'undefined'
+          || typeof this.props.panelHtml !== 'undefined'
           ? (
             <div className={this.props.classes.questionPanelHeaderContainer}>
               {typeof this.props.panelHeader !== 'undefined'
@@ -225,6 +230,11 @@ class QuestionPanel extends React.Component {
                   <p className={this.props.classes.questionPanelText}>
                     {this.props.panelText}
                   </p>
+                )
+                : undefined}
+              {typeof this.props.panelHtml !== 'undefined'
+                ? (
+                <div dangerouslySetInnerHTML={createMarkup(this.props.panelHtml)} />
                 )
                 : undefined}
             </div>
@@ -264,6 +274,7 @@ QuestionPanel.defaultProps = {
   panelIndex: undefined,
   panelHeader: undefined,
   panelText: undefined,
+  panelHtml: undefined,
   action: {
     default: {},
     conditions: []
