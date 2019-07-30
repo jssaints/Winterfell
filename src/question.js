@@ -40,6 +40,7 @@ class Question extends React.Component {
      * question.
      */
     var conditionalItems = [];
+    var conditionalAnswers = {};
     if (typeof this.props.input.options !== 'undefined') {
       this.props.input.options
           .filter(option => {
@@ -72,6 +73,16 @@ class Question extends React.Component {
                           onQuestionBlur={this.props.onQuestionBlur}
                           onKeyDown={this.props.onKeyDown} />
               );
+            }
+          )());
+      this.props.input.options
+          .filter(option => {
+            return typeof option.conditions !== 'undefined'
+                     && option.conditions.length > 0;
+          })
+          .forEach(option =>
+            [].forEach.bind(option.conditions, condition => {
+              conditionalAnswers[condition.questionId] = this.props.questionAnswers[condition.questionId];
             }
           )());
     }
@@ -132,6 +143,7 @@ class Question extends React.Component {
                value={value}
                text={this.props.input.text}
                options={this.props.input.options}
+               conditionalAnswers={conditionalAnswers}
                placeholder={this.props.input.placeholder}
                required={this.props.input.required}
                classes={this.props.classes}

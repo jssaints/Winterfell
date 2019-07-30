@@ -17,12 +17,32 @@ class SelectInput extends React.Component {
   }
 
   render() {
-    var options = this.props.options.map(opt =>
-      <option key={opt.value}
-              value={opt.value}>
-        {opt.text}
-      </option>
-    );
+    var options = this.props.options.map(opt => {
+      if (typeof opt.conditions !== 'undefined' && opt.conditions.length > 0) {
+        let c = 0;
+        opt.conditions
+        .forEach(condition => {
+          if (this.props.conditionalAnswers[condition.questionId] === condition.value) {
+            c++;
+          }
+        });
+        if (opt.conditions.length == c) {
+          return (
+            <option key={opt.value}
+                    value={opt.value}>
+              {opt.text}
+            </option>
+          );
+        }
+      } else {
+        return (
+          <option key={opt.value}
+                  value={opt.value}>
+            {opt.text}
+          </option>
+        );
+      }
+    });
 
     return (
       <select name={this.props.name}
