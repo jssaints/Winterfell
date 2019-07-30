@@ -224,10 +224,14 @@ var QuestionPanel = (function (_React$Component) {
           onKeyDown: _this3.handleInputKeyDown.bind(_this3) });
       });
 
+      function createMarkup(panelHtml) {
+        return { __html: panelHtml };
+      }
+
       return React.createElement(
         'div',
         { className: this.props.classes.questionPanel },
-        typeof this.props.panelHeader !== 'undefined' || typeof this.props.panelText !== 'undefined' ? React.createElement(
+        typeof this.props.panelHeader !== 'undefined' || typeof this.props.panelText !== 'undefined' || typeof this.props.panelHtml !== 'undefined' ? React.createElement(
           'div',
           { className: this.props.classes.questionPanelHeaderContainer },
           typeof this.props.panelHeader !== 'undefined' ? React.createElement(
@@ -239,7 +243,8 @@ var QuestionPanel = (function (_React$Component) {
             'p',
             { className: this.props.classes.questionPanelText },
             this.props.panelText
-          ) : undefined
+          ) : undefined,
+          typeof this.props.panelHtml !== 'undefined' ? React.createElement('div', { dangerouslySetInnerHTML: createMarkup(this.props.panelHtml) }) : undefined
         ) : undefined,
         React.createElement(
           'div',
@@ -273,6 +278,7 @@ QuestionPanel.defaultProps = {
   panelIndex: undefined,
   panelHeader: undefined,
   panelText: undefined,
+  panelHtml: undefined,
   action: {
     'default': {},
     conditions: []
