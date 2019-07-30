@@ -27,25 +27,68 @@ var QuestionSet = (function (_React$Component) {
     value: function render() {
       var _this = this;
 
+      var mappingConditionalItems = [];
+      var isError = 0;
       var questions = this.props.questions.map(function (question) {
-        return React.createElement(Question, { key: question.questionId,
-          questionSetId: _this.props.id,
-          questionId: question.questionId,
-          question: question.question,
-          validateOn: question.validateOn,
-          validations: question.validations,
-          text: question.text,
-          postText: question.postText,
-          value: _this.props.questionAnswers[question.questionId],
-          input: question.input,
-          classes: _this.props.classes,
-          renderError: _this.props.renderError,
-          renderRequiredAsterisk: _this.props.renderRequiredAsterisk,
-          questionAnswers: _this.props.questionAnswers,
-          validationErrors: _this.props.validationErrors,
-          onAnswerChange: _this.props.onAnswerChange,
-          onQuestionBlur: _this.props.onQuestionBlur,
-          onKeyDown: _this.props.onKeyDown });
+        if (typeof question.mappingConditions !== 'undefined') {
+          var conditionCount = 0;
+          var conditionSuccessCount = 0;
+          question.mappingConditions.forEach(function (condition) {
+            Object.keys(condition).forEach(function (questionId) {
+              if (_this.props.questionAnswers[questionId] !== undefined) {
+                conditionCount += 1;
+                if (Array.isArray(condition[questionId]) && condition[questionId].indexOf(_this.props.questionAnswers[questionId]) > -1) {
+                  conditionSuccessCount += 1;
+                } else if (!Array.isArray(condition[questionId]) && condition[questionId] === _this.props.questionAnswers[questionId]) {
+                  conditionSuccessCount += 1;
+                }
+              }
+            });
+          });
+          if (conditionCount !== conditionSuccessCount) {
+            isError = 1;
+          }
+          if (!isError) {
+            mappingConditionalItems.push(React.createElement(Question, { key: question.questionId,
+              questionSetId: _this.props.id,
+              questionId: question.questionId,
+              question: question.question,
+              validateOn: question.validateOn,
+              validations: question.validations,
+              text: question.text,
+              postText: question.postText,
+              value: _this.props.questionAnswers[question.questionId],
+              input: question.input,
+              classes: _this.props.classes,
+              renderError: _this.props.renderError,
+              renderRequiredAsterisk: _this.props.renderRequiredAsterisk,
+              questionAnswers: _this.props.questionAnswers,
+              validationErrors: _this.props.validationErrors,
+              onAnswerChange: _this.props.onAnswerChange,
+              onQuestionBlur: _this.props.onQuestionBlur,
+              onKeyDown: _this.props.onKeyDown }));
+          }
+          return '';
+        } else {
+          return React.createElement(Question, { key: question.questionId,
+            questionSetId: _this.props.id,
+            questionId: question.questionId,
+            question: question.question,
+            validateOn: question.validateOn,
+            validations: question.validations,
+            text: question.text,
+            postText: question.postText,
+            value: _this.props.questionAnswers[question.questionId],
+            input: question.input,
+            classes: _this.props.classes,
+            renderError: _this.props.renderError,
+            renderRequiredAsterisk: _this.props.renderRequiredAsterisk,
+            questionAnswers: _this.props.questionAnswers,
+            validationErrors: _this.props.validationErrors,
+            onAnswerChange: _this.props.onAnswerChange,
+            onQuestionBlur: _this.props.onQuestionBlur,
+            onKeyDown: _this.props.onKeyDown });
+        }
       });
 
       function createMarkup(questionSetHtml) {
@@ -70,7 +113,8 @@ var QuestionSet = (function (_React$Component) {
           ) : undefined,
           typeof this.props.questionSetHtml !== 'undefined' ? React.createElement('div', { dangerouslySetInnerHTML: createMarkup(this.props.questionSetHtml) }) : undefined
         ) : undefined,
-        questions
+        questions,
+        mappingConditionalItems
       );
     }
   }]);

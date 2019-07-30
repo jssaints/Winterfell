@@ -94,22 +94,44 @@ var getActiveQuestions = function getActiveQuestions(questions, questionAnswers,
   activeQuestions = activeQuestions || [];
 
   questions.forEach(function (question) {
-    activeQuestions.push({
-      questionId: question.questionId,
-      validations: question.validations
-    });
-
-    if (typeof question.input.options === 'undefined' || question.input.options.length === 0) {
-      return;
+    var isError = 0;
+    if (typeof question.mappingConditions !== 'undefined') {
+      var conditionCount = 0;
+      var conditionSuccessCount = 0;
+      question.mappingConditions.forEach(function (condition) {
+        Object.keys(condition).forEach(function (questionId) {
+          if (questionAnswers[questionId] !== undefined) {
+            conditionCount += 1;
+            if (Array.isArray(condition[questionId]) && condition[questionId].indexOf(questionAnswers[questionId]) > -1) {
+              conditionSuccessCount += 1;
+            } else if (!Array.isArray(condition[questionId]) && condition[questionId] === questionAnswers[questionId]) {
+              conditionSuccessCount += 1;
+            }
+          }
+        });
+      });
+      if (conditionCount !== conditionSuccessCount) {
+        isError = 1;
+      }
     }
+    if (!isError) {
+      activeQuestions.push({
+        questionId: question.questionId,
+        validations: question.validations
+      });
 
-    question.input.options.forEach(function (option) {
-      if (typeof option.conditionalQuestions === 'undefined' || option.conditionalQuestions.length == 0 || questionAnswers[question.questionId] != option.value) {
+      if (typeof question.input.options === 'undefined' || question.input.options.length === 0) {
         return;
       }
 
-      activeQuestions = getActiveQuestions(option.conditionalQuestions, questionAnswers, activeQuestions);
-    });
+      question.input.options.forEach(function (option) {
+        if (typeof option.conditionalQuestions === 'undefined' || option.conditionalQuestions.length == 0 || questionAnswers[question.questionId] != option.value) {
+          return;
+        }
+
+        activeQuestions = getActiveQuestions(option.conditionalQuestions, questionAnswers, activeQuestions);
+      });
+    }
   });
 
   return activeQuestions;
