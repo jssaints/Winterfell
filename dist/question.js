@@ -116,13 +116,17 @@ var Question = (function (_React$Component) {
         );
       }) : [];
 
+      var validationInputErrors = typeof this.props.validationErrors[this.props.questionId] !== 'undefined' ? this.props.validationErrors[this.props.questionId].map(function (error) {
+        return typeof _this.props.renderError === 'function' ? _this.props.renderError(error, _this.props.questionId) : ' error';
+      }) : '';
+
       var labelId = this.props.questionId + '-label';
 
       var checked = this.props.input.type === 'checkboxInput' && typeof this.props.input['default'] !== 'undefined' && this.props.input['default'] === this.props.value ? true : false;
 
       return React.createElement(
         'div',
-        { className: this.props.classes.question },
+        { className: this.props.classes.question + validationInputErrors },
         !!this.props.question ? React.createElement(
           'label',
           { className: this.props.classes.label,
@@ -136,7 +140,6 @@ var Question = (function (_React$Component) {
           { className: this.props.classes.questionText },
           this.props.text
         ) : undefined,
-        validationErrors,
         React.createElement(Input, _extends({ name: this.props.questionId,
           id: this.props.questionId,
           labelId: labelId,
@@ -153,6 +156,7 @@ var Question = (function (_React$Component) {
           onBlur: this.handleInputBlur.bind(this, this.props.questionId),
           onKeyDown: this.props.onKeyDown
         }, typeof this.props.input.props === 'object' ? this.props.input.props : {})),
+        validationErrors,
         !!this.props.postText ? React.createElement(
           'p',
           { className: this.props.classes.questionPostText },
