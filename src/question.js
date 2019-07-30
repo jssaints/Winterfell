@@ -114,6 +114,12 @@ class Question extends React.Component {
 
     let labelId = `${this.props.questionId}-label`;
 
+	  var checked = (
+      this.props.input.type === 'checkboxInput' &&
+      typeof this.props.input.default !== 'undefined' &&
+      this.props.input.default === this.props.value
+    ) ? true : false;
+
     return (
       <div className={this.props.classes.question}>
         {!!this.props.question
@@ -141,6 +147,7 @@ class Question extends React.Component {
                id={this.props.questionId}
                labelId={labelId}
                value={value}
+               defaultChecked={checked}
                text={this.props.input.text}
                options={this.props.input.options}
                conditionalAnswers={conditionalAnswers}

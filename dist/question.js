@@ -108,6 +108,8 @@ var Question = (function (_React$Component) {
 
       var labelId = this.props.questionId + '-label';
 
+      var checked = this.props.input.type === 'checkboxInput' && typeof this.props.input['default'] !== 'undefined' && this.props.input['default'] === this.props.value ? true : false;
+
       return React.createElement(
         'div',
         { className: this.props.classes.question },
@@ -129,6 +131,7 @@ var Question = (function (_React$Component) {
           id: this.props.questionId,
           labelId: labelId,
           value: value,
+          defaultChecked: checked,
           text: this.props.input.text,
           options: this.props.input.options,
           conditionalAnswers: conditionalAnswers,
