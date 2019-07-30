@@ -54,6 +54,7 @@ var Question = (function (_React$Component) {
        * question.
        */
       var conditionalItems = [];
+      var conditionalAnswers = {};
       if (typeof this.props.input.options !== 'undefined') {
         this.props.input.options.filter(function (option) {
           return _this.props.value instanceof Array ? _this.props.value.indexOf(option.value) > -1 : _this.props.value == option.value;
@@ -78,6 +79,13 @@ var Question = (function (_React$Component) {
               onAnswerChange: _this.props.onAnswerChange,
               onQuestionBlur: _this.props.onQuestionBlur,
               onKeyDown: _this.props.onKeyDown }));
+          })();
+        });
+        this.props.input.options.filter(function (option) {
+          return typeof option.conditions !== 'undefined' && option.conditions.length > 0;
+        }).forEach(function (option) {
+          return [].forEach.bind(option.conditions, function (condition) {
+            conditionalAnswers[condition.questionId] = _this.props.questionAnswers[condition.questionId];
           })();
         });
       }
@@ -123,6 +131,7 @@ var Question = (function (_React$Component) {
           value: value,
           text: this.props.input.text,
           options: this.props.input.options,
+          conditionalAnswers: conditionalAnswers,
           placeholder: this.props.input.placeholder,
           required: this.props.input.required,
           classes: this.props.classes,

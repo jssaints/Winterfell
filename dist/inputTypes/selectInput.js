@@ -33,13 +33,38 @@ var SelectInput = (function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this = this;
+
       var options = this.props.options.map(function (opt) {
-        return React.createElement(
-          'option',
-          { key: opt.value,
-            value: opt.value },
-          opt.text
-        );
+        if (typeof opt.conditions !== 'undefined' && opt.conditions.length > 0) {
+          var _ret = (function () {
+            var c = 0;
+            opt.conditions.forEach(function (condition) {
+              if (_this.props.conditionalAnswers[condition.questionId] === condition.value) {
+                c++;
+              }
+            });
+            if (opt.conditions.length == c) {
+              return {
+                v: React.createElement(
+                  'option',
+                  { key: opt.value,
+                    value: opt.value },
+                  opt.text
+                )
+              };
+            }
+          })();
+
+          if (typeof _ret === 'object') return _ret.v;
+        } else {
+          return React.createElement(
+            'option',
+            { key: opt.value,
+              value: opt.value },
+            opt.text
+          );
+        }
       });
 
       return React.createElement(
