@@ -59,6 +59,7 @@ class Question extends React.Component {
               conditionalItems.push(
                 <Question key={conditionalQuestion.questionId}
                           questionSetId={this.props.questionSetId}
+                          questionContainerClass={conditionalQuestion.questionContainerClass}
                           questionId={conditionalQuestion.questionId}
                           question={conditionalQuestion.question}
                           text={conditionalQuestion.text}
@@ -144,7 +145,7 @@ class Question extends React.Component {
     ) ? true : false;
 
     return (
-      <div className={this.props.classes.question + validationInputErrors}>
+      <div className={this.props.classes.question + this.props.questionContainerClass + validationInputErrors}>
         {!!this.props.question
           ? (
               <label className={this.props.classes.label}
@@ -155,21 +156,23 @@ class Question extends React.Component {
                    && this.props.input.required
                    ? this.props.renderRequiredAsterisk()
                    : undefined}
+        {!!this.props.text
+          ? (
+              <small className={this.props.classes.questionText}>
+                {this.props.text}
+              </small>
+            )
+          : undefined}                   
               </label>
             )
           : undefined}
-        {!!this.props.text
-          ? (
-              <p className={this.props.classes.questionText}>
-                {this.props.text}
-              </p>
-            )
-          : undefined}
+
         <Input name={this.props.questionId}
                id={this.props.questionId}
                labelId={labelId}
                value={value}
                defaultChecked={checked}
+               questionInputClass={this.props.input.questionInputClass}
                text={this.props.input.text}
                options={this.props.input.options}
                conditionalAnswers={conditionalAnswers}
@@ -216,6 +219,7 @@ class Question extends React.Component {
 Question.defaultProps = {
   questionSetId          : undefined,
   questionId             : undefined,
+  questionContainerClass : '',  
   question               : '',
   validateOn             : 'blur',
   validations            : [],
@@ -226,7 +230,8 @@ Question.defaultProps = {
     default     : undefined,
     type        : 'textInput',
     limit       : undefined,
-    placeholder : undefined
+    placeholder : undefined,
+    questionInputClass : '',
   },
   classes                : {},
   questionAnswers        : {},

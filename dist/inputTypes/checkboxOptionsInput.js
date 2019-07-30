@@ -50,24 +50,25 @@ var CheckboxOptionsInput = (function (_React$Component) {
       return React.createElement(
         'ul',
         { className: this.props.classes.checkboxList },
-        this.props.options.map(function (opt) {
+        this.props.options.map(function (opt, index) {
           return React.createElement(
             'li',
             { key: opt.value,
               className: _this.props.classes.checkboxListItem },
+            React.createElement('input', { type: 'checkbox',
+              name: _this.props.name,
+              'aria-labelledby': _this.props.labelId,
+              value: opt.value,
+              checked: _this.state.value.indexOf(opt.value) > -1,
+              className: _this.props.classes.checkbox,
+              id: _this.props.labelId + index,
+              required: _this.props.required ? 'required' : undefined,
+              onChange: _this.handleChange.bind(_this, opt.value),
+              onBlur: _this.props.onBlur.bind(null, _this.state.value) }),
             React.createElement(
               'label',
               { className: _this.props.classes.checkboxLabel,
-                id: _this.props.labelId },
-              React.createElement('input', { type: 'checkbox',
-                name: _this.props.name,
-                'aria-labelledby': _this.props.labelId,
-                value: opt.value,
-                checked: _this.state.value.indexOf(opt.value) > -1,
-                className: _this.props.classes.checkbox,
-                required: _this.props.required ? 'required' : undefined,
-                onChange: _this.handleChange.bind(_this, opt.value),
-                onBlur: _this.props.onBlur.bind(null, _this.state.value) }),
+                id: _this.props.labelId + index, 'for': _this.props.labelId + index },
               opt.text
             )
           );

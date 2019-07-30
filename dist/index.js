@@ -145,7 +145,7 @@ var Winterfell = (function (_React$Component) {
           className: this.state.schema.classes.form },
         React.createElement(
           'div',
-          { className: this.state.schema.classes.questionPanels },
+          { className: this.state.schema.classes.questionPanels + currentPanel.questionPanelClass },
           React.createElement(QuestionPanel, { schema: this.state.schema,
             classes: this.state.schema.classes,
             panelId: currentPanel.panelId,

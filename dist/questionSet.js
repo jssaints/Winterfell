@@ -51,6 +51,7 @@ var QuestionSet = (function (_React$Component) {
           if (!isError) {
             mappingConditionalItems.push(React.createElement(Question, { key: question.questionId,
               questionSetId: _this.props.id,
+              questionContainerClass: question.questionContainerClass,
               questionId: question.questionId,
               question: question.question,
               validateOn: question.validateOn,
@@ -72,6 +73,7 @@ var QuestionSet = (function (_React$Component) {
         } else {
           return React.createElement(Question, { key: question.questionId,
             questionSetId: _this.props.id,
+            questionContainerClass: question.questionContainerClass,
             questionId: question.questionId,
             question: question.question,
             validateOn: question.validateOn,
@@ -94,10 +96,9 @@ var QuestionSet = (function (_React$Component) {
       function createMarkup(questionSetHtml) {
         return { __html: questionSetHtml };
       }
-
       return React.createElement(
         'div',
-        { className: this.props.classes.questionSet },
+        { className: this.props.classes.questionSet + this.props.questionSetClass },
         typeof this.props.questionSetHeader !== 'undefined' || typeof this.props.questionSetText !== 'undefined' || typeof this.props.questionSetHtml !== 'undefined' ? React.createElement(
           'div',
           { className: this.props.classes.questionSetHeaderContainer },
@@ -133,6 +134,7 @@ QuestionSet.defaultProps = {
   questions: [],
   questionAnswers: {},
   classes: {},
+  questionSetClass: '',
   validationErrors: {},
   renderError: undefined,
   renderRequiredAsterisk: undefined,

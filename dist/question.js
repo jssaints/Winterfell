@@ -65,6 +65,7 @@ var Question = (function (_React$Component) {
           return [].forEach.bind(option.conditionalQuestions, function (conditionalQuestion) {
             conditionalItems.push(React.createElement(Question, { key: conditionalQuestion.questionId,
               questionSetId: _this.props.questionSetId,
+              questionContainerClass: conditionalQuestion.questionContainerClass,
               questionId: conditionalQuestion.questionId,
               question: conditionalQuestion.question,
               text: conditionalQuestion.text,
@@ -126,25 +127,26 @@ var Question = (function (_React$Component) {
 
       return React.createElement(
         'div',
-        { className: this.props.classes.question + validationInputErrors },
+        { className: this.props.classes.question + this.props.questionContainerClass + validationInputErrors },
         !!this.props.question ? React.createElement(
           'label',
           { className: this.props.classes.label,
             id: labelId,
             htmlFor: this.props.questionId },
           this.props.question,
-          typeof this.props.renderRequiredAsterisk !== 'undefined' && this.props.input.required ? this.props.renderRequiredAsterisk() : undefined
-        ) : undefined,
-        !!this.props.text ? React.createElement(
-          'p',
-          { className: this.props.classes.questionText },
-          this.props.text
+          typeof this.props.renderRequiredAsterisk !== 'undefined' && this.props.input.required ? this.props.renderRequiredAsterisk() : undefined,
+          !!this.props.text ? React.createElement(
+            'small',
+            { className: this.props.classes.questionText },
+            this.props.text
+          ) : undefined
         ) : undefined,
         React.createElement(Input, _extends({ name: this.props.questionId,
           id: this.props.questionId,
           labelId: labelId,
           value: value,
           defaultChecked: checked,
+          questionInputClass: this.props.input.questionInputClass,
           text: this.props.input.text,
           options: this.props.input.options,
           conditionalAnswers: conditionalAnswers,
@@ -184,6 +186,7 @@ var Question = (function (_React$Component) {
 Question.defaultProps = {
   questionSetId: undefined,
   questionId: undefined,
+  questionContainerClass: '',
   question: '',
   validateOn: 'blur',
   validations: [],
@@ -194,7 +197,8 @@ Question.defaultProps = {
     'default': undefined,
     type: 'textInput',
     limit: undefined,
-    placeholder: undefined
+    placeholder: undefined,
+    questionInputClass: ''
   },
   classes: {},
   questionAnswers: {},

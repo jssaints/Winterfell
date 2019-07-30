@@ -93,7 +93,7 @@ var SelectInput = (function (_React$Component) {
         'select',
         { name: this.props.name,
           id: this.props.id,
-          className: this.props.classes.select,
+          className: this.props.classes.select + this.props.questionInputClass,
           value: this.state.value,
           ref: 'select',
           required: this.props.required ? 'required' : undefined,

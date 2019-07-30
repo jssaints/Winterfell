@@ -38,23 +38,24 @@ var RadioOptionsInput = (function (_React$Component) {
       return React.createElement(
         'ul',
         { className: this.props.classes.radioList },
-        this.props.options.map(function (opt) {
+        this.props.options.map(function (opt, ind) {
           return React.createElement(
             'li',
             { key: opt.value,
               className: _this.props.classes.radioListItem },
+            React.createElement('input', { type: 'radio',
+              name: _this.props.name,
+              id: _this.props.labelId + '-' + ind,
+              'aria-labelledby': _this.props.labelId,
+              checked: _this.state.value == opt.value,
+              className: _this.props.classes.radio,
+              required: _this.props.required ? 'required' : undefined,
+              onChange: _this.handleChange.bind(_this, opt.value),
+              onBlur: _this.props.onBlur.bind(null, _this.state.value) }),
             React.createElement(
               'label',
               { className: _this.props.classes.radioLabel,
-                id: _this.props.labelId },
-              React.createElement('input', { type: 'radio',
-                name: _this.props.name,
-                'aria-labelledby': _this.props.labelId,
-                checked: _this.state.value == opt.value,
-                className: _this.props.classes.radio,
-                required: _this.props.required ? 'required' : undefined,
-                onChange: _this.handleChange.bind(_this, opt.value),
-                onBlur: _this.props.onBlur.bind(null, _this.state.value) }),
+                id: _this.props.labelId, 'for': _this.props.labelId + '-' + ind },
               opt.text
             )
           );
