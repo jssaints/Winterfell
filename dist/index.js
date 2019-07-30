@@ -70,8 +70,10 @@ var Winterfell = (function (_React$Component) {
       var questionAnswers = _.chain(this.state.questionAnswers).set(questionId, questionAnswer).value();
 
       this.setState({
-        questionAnswers: questionAnswers
-      }, this.props.onUpdate.bind(null, questionAnswers));
+        questionAnswers: questionAnswers,
+        questionId: questionId,
+        questionAnswer: questionAnswer
+      }, this.props.onUpdate.bind(null, questionAnswers, questionId, questionAnswer));
     }
   }, {
     key: 'handleSwitchPanel',
