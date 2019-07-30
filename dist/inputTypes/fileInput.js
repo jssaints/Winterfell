@@ -27,26 +27,42 @@ var FileInput = (function (_React$Component) {
     _get(Object.getPrototypeOf(FileInput.prototype), 'constructor', this).call(this, props);
 
     this.state = {
-      value: this.props.value
+      value: this.props.value,
+      progress: 0
     };
   }
 
   _createClass(FileInput, [{
     key: 'handleChange',
-    value: function handleChange(file) {
+    value: function handleChange(file, progress) {
       this.setState({
         value: file
-      }, this.props.onChange.bind(null, file));
+      }, this.props.onChange.bind(null, file, progress));
+    }
+  }, {
+    key: 'progressEvent',
+    value: function progressEvent(_progressEvent) {
+      var percentCompleted = Math.round(_progressEvent.loaded * 100 / _progressEvent.total);
+      this.setState({
+        progress: percentCompleted
+      });
+      this.forceUpdate();
     }
   }, {
     key: 'onDrop',
     value: function onDrop(files) {
+      var progress = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: this.progressEvent.bind(this)
+      };
       Object.assign(files[0], {
         preview: URL.createObjectURL(files[0])
       });
       this.setState({
         value: files[0]
-      }, this.props.onChange.bind(null, files[0]));
+      }, this.props.onChange.bind(null, files[0], progress));
     }
   }, {
     key: 'render',
@@ -79,6 +95,45 @@ var FileInput = (function (_React$Component) {
         borderColor: '#c66',
         backgroundColor: '#eee'
       };
+      var progressBar = {
+        float: 'left',
+        width: '0',
+        height: '100%',
+        fontSize: '12px',
+        lineHeight: '20px',
+        color: '#fff',
+        textAlign: 'center',
+        backgroundColor: '#337ab7',
+        WebkitBoxShadow: 'inset 0 -1px 0 rgba(0,0,0,.15)',
+        boxShadow: 'inset 0 -1px 0 rgba(0,0,0,.15)',
+        WebkitTransition: 'width .6s ease',
+        Otransition: 'width .6s ease',
+        transition: 'width .6s ease'
+      };
+      var progressWrapper = {
+        height: '10px',
+        marginTop: '10px',
+        width: '400px',
+        float: 'left',
+        overflow: 'hidden',
+        backgroundColor: '#f5f5f5',
+        borderRadius: '4px',
+        WebkitBoxShadow: 'inset 0 1px 2px rgba(0,0,0,.1)',
+        boxShadow: 'inset 0 1px 2px rgba(0,0,0,.1)'
+      };
+      progressBar.width = this.state.progress + '%';
+      var message = React.createElement(
+        'span',
+        null,
+        'Uploading ...'
+      );
+      if (this.state.progress === 100) {
+        message = React.createElement(
+          'span',
+          null,
+          'Successfully uploaded'
+        );
+      }
       return React.createElement(
         'section',
         null,
@@ -86,9 +141,10 @@ var FileInput = (function (_React$Component) {
         React.createElement(
           _reactDropzone2['default'],
           {
+            accept: 'image/*',
             multiple: false,
             name: this.props.name,
-            onDrop: this.onDrop,
+            onDrop: this.onDrop.bind(this),
             onChange: this.handleChange.bind(this)
           },
           function (_ref) {
@@ -127,6 +183,20 @@ var FileInput = (function (_React$Component) {
               )
             );
           }
+        ),
+        this.state.progress !== 0 && React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(
+            'div',
+            { style: progressWrapper },
+            React.createElement('div', { style: progressBar })
+          ),
+          React.createElement(
+            'div',
+            { style: { clear: 'left' } },
+            message
+          )
         )
       );
     }

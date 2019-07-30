@@ -5,12 +5,13 @@ var InputTypes = require('./inputTypes');
 
 class Question extends React.Component {
 
-  handleInputChange(questionId, value) {
+  handleInputChange(questionId, value, progress) {
     this.props.onAnswerChange(
       questionId,
       value,
       this.props.validations,
-      this.props.validateOn
+      this.props.validateOn,
+      progress
     );
   }
 

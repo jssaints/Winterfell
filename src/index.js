@@ -56,7 +56,7 @@ class Winterfell extends React.Component {
     });
   }
 
-  handleAnswerChange(questionId, questionAnswer) {
+  handleAnswerChange(questionId, questionAnswer, progress) {
     var questionAnswers = _.chain(this.state.questionAnswers)
                            .set(questionId, questionAnswer)
                            .value();
@@ -65,7 +65,7 @@ class Winterfell extends React.Component {
       questionAnswers : questionAnswers,
       questionId      : questionId,
       questionAnswer  : questionAnswer,
-    }, this.props.onUpdate.bind(null, questionAnswers, questionId, questionAnswer));
+    }, this.props.onUpdate.bind(null, questionAnswers, questionId, questionAnswer, progress));
   }
 
   handleSwitchPanel(panelId, preventHistory) {

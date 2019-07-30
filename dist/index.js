@@ -66,14 +66,14 @@ var Winterfell = (function (_React$Component) {
     }
   }, {
     key: 'handleAnswerChange',
-    value: function handleAnswerChange(questionId, questionAnswer) {
+    value: function handleAnswerChange(questionId, questionAnswer, progress) {
       var questionAnswers = _.chain(this.state.questionAnswers).set(questionId, questionAnswer).value();
 
       this.setState({
         questionAnswers: questionAnswers,
         questionId: questionId,
         questionAnswer: questionAnswer
-      }, this.props.onUpdate.bind(null, questionAnswers, questionId, questionAnswer));
+      }, this.props.onUpdate.bind(null, questionAnswers, questionId, questionAnswer, progress));
     }
   }, {
     key: 'handleSwitchPanel',
