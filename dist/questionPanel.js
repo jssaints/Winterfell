@@ -213,6 +213,7 @@ var QuestionPanel = (function (_React$Component) {
           name: questionSet.name,
           questionSetHeader: questionSet.questionSetHeader,
           questionSetText: questionSet.questionSetText,
+          questionSetHtml: questionSet.questionSetHtml,
           questions: questionSet.questions,
           classes: _this3.props.classes,
           questionAnswers: _this3.props.questionAnswers,

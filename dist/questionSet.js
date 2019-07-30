@@ -48,10 +48,14 @@ var QuestionSet = (function (_React$Component) {
           onKeyDown: _this.props.onKeyDown });
       });
 
+      function createMarkup(questionSetHtml) {
+        return { __html: questionSetHtml };
+      }
+
       return React.createElement(
         'div',
         { className: this.props.classes.questionSet },
-        typeof this.props.questionSetHeader !== 'undefined' || typeof this.props.questionSetText !== 'undefined' ? React.createElement(
+        typeof this.props.questionSetHeader !== 'undefined' || typeof this.props.questionSetText !== 'undefined' || typeof this.props.questionSetHtml !== 'undefined' ? React.createElement(
           'div',
           { className: this.props.classes.questionSetHeaderContainer },
           typeof this.props.questionSetHeader !== 'undefined' ? React.createElement(
@@ -63,7 +67,8 @@ var QuestionSet = (function (_React$Component) {
             'p',
             { className: this.props.classes.questionSetText },
             this.props.questionSetText
-          ) : undefined
+          ) : undefined,
+          typeof this.props.questionSetHtml !== 'undefined' ? React.createElement('div', { dangerouslySetInnerHTML: createMarkup(this.props.questionSetHtml) }) : undefined
         ) : undefined,
         questions
       );
@@ -80,6 +85,7 @@ QuestionSet.defaultProps = {
   name: '',
   questionSetHeader: undefined,
   questionSetText: undefined,
+  questionSetHtml: undefined,
   questions: [],
   questionAnswers: {},
   classes: {},

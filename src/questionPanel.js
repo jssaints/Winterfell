@@ -195,6 +195,7 @@ class QuestionPanel extends React.Component {
           name={questionSet.name}
           questionSetHeader={questionSet.questionSetHeader}
           questionSetText={questionSet.questionSetText}
+          questionSetHtml={questionSet.questionSetHtml}
           questions={questionSet.questions}
           classes={this.props.classes}
           questionAnswers={this.props.questionAnswers}

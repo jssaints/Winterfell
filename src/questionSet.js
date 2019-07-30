@@ -29,10 +29,15 @@ class QuestionSet extends React.Component {
       );
     });
 
+    function createMarkup(questionSetHtml) {
+      return {__html: questionSetHtml};
+    }
+
     return (
       <div className={this.props.classes.questionSet}>
         {typeof this.props.questionSetHeader !== 'undefined'
            || typeof this.props.questionSetText !== 'undefined'
+           || typeof this.props.questionSetHtml !== 'undefined'
            ? (
                <div className={this.props.classes.questionSetHeaderContainer}>
                 {typeof this.props.questionSetHeader !== 'undefined'
@@ -45,6 +50,11 @@ class QuestionSet extends React.Component {
                       {this.props.questionSetText}
                     </p>
                   : undefined}
+                {typeof this.props.questionSetHtml !== 'undefined'
+                  ? (
+                  <div dangerouslySetInnerHTML={createMarkup(this.props.questionSetHtml)} />
+                  )
+                : undefined}
                </div>
              )
              : undefined}
@@ -60,6 +70,7 @@ QuestionSet.defaultProps = {
   name                   : '',
   questionSetHeader      : undefined,
   questionSetText        : undefined,
+  questionSetHtml        : undefined,
   questions              : [],
   questionAnswers        : {},
   classes                : {},
