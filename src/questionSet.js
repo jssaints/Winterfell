@@ -6,27 +6,81 @@ var Question = require('./question');
 class QuestionSet extends React.Component {
 
   render() {
+    var mappingConditionalItems = [];
+    let isError = 0;
     var questions = this.props.questions.map(question => {
-      return (
-        <Question key={question.questionId}
-                  questionSetId={this.props.id}
-                  questionId={question.questionId}
-                  question={question.question}
-                  validateOn={question.validateOn}
-                  validations={question.validations}
-                  text={question.text}
-                  postText={question.postText}
-                  value={this.props.questionAnswers[question.questionId]}
-                  input={question.input}
-                  classes={this.props.classes}
-                  renderError={this.props.renderError}
-                  renderRequiredAsterisk={this.props.renderRequiredAsterisk}
-                  questionAnswers={this.props.questionAnswers}
-                  validationErrors={this.props.validationErrors}
-                  onAnswerChange={this.props.onAnswerChange}
-                  onQuestionBlur={this.props.onQuestionBlur}
-                  onKeyDown={this.props.onKeyDown} />
-      );
+      if (typeof question.mappingConditions !== 'undefined') {
+        let conditionCount = 0;
+        let conditionSuccessCount = 0;
+        question.mappingConditions.forEach(condition => {
+          Object.keys(condition).forEach(questionId => {
+            if (this.props.questionAnswers[questionId] !== undefined) {
+              conditionCount += 1;
+              if (
+                Array.isArray(condition[questionId]) &&
+                condition[questionId].indexOf(
+                  this.props.questionAnswers[questionId]
+                ) > -1
+              ) {
+                conditionSuccessCount += 1;
+              } else if (
+                !Array.isArray(condition[questionId]) &&
+                condition[questionId] ===
+                  this.props.questionAnswers[questionId]
+              ) {
+                conditionSuccessCount += 1;
+              }
+            }
+          });
+        });
+        if (conditionCount !== conditionSuccessCount) {
+          isError = 1;
+        }
+        if (!isError) {
+          mappingConditionalItems.push(
+            <Question key={question.questionId}
+                      questionSetId={this.props.id}
+                      questionId={question.questionId}
+                      question={question.question}
+                      validateOn={question.validateOn}
+                      validations={question.validations}
+                      text={question.text}
+                      postText={question.postText}
+                      value={this.props.questionAnswers[question.questionId]}
+                      input={question.input}
+                      classes={this.props.classes}
+                      renderError={this.props.renderError}
+                      renderRequiredAsterisk={this.props.renderRequiredAsterisk}
+                      questionAnswers={this.props.questionAnswers}
+                      validationErrors={this.props.validationErrors}
+                      onAnswerChange={this.props.onAnswerChange}
+                      onQuestionBlur={this.props.onQuestionBlur}
+                      onKeyDown={this.props.onKeyDown} />
+          );
+        }
+        return '';
+      } else {
+        return (
+            <Question key={question.questionId}
+                      questionSetId={this.props.id}
+                      questionId={question.questionId}
+                      question={question.question}
+                      validateOn={question.validateOn}
+                      validations={question.validations}
+                      text={question.text}
+                      postText={question.postText}
+                      value={this.props.questionAnswers[question.questionId]}
+                      input={question.input}
+                      classes={this.props.classes}
+                      renderError={this.props.renderError}
+                      renderRequiredAsterisk={this.props.renderRequiredAsterisk}
+                      questionAnswers={this.props.questionAnswers}
+                      validationErrors={this.props.validationErrors}
+                      onAnswerChange={this.props.onAnswerChange}
+                      onQuestionBlur={this.props.onQuestionBlur}
+                      onKeyDown={this.props.onKeyDown} />
+        );
+      }
     });
 
     function createMarkup(questionSetHtml) {
@@ -59,6 +113,7 @@ class QuestionSet extends React.Component {
              )
              : undefined}
         {questions}
+        {mappingConditionalItems}
       </div>
     );
   }
