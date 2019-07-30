@@ -10,7 +10,8 @@ var inputTypes = {
   radioOptionsInput    : require('./radioOptionsInput'),
   selectInput          : require('./selectInput'),
   textareaInput        : require('./textareaInput'),
-  textInput            : require('./textInput')
+  textInput            : require('./textInput'),
+  dateInput            : require('./dateInput')
 };
 
 /**
