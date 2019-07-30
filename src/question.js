@@ -41,6 +41,7 @@ class Question extends React.Component {
      */
     var conditionalItems = [];
     var conditionalAnswers = {};
+    var mappingConditionalAnswers = {};
     if (typeof this.props.input.options !== 'undefined') {
       this.props.input.options
           .filter(option => {
@@ -83,6 +84,18 @@ class Question extends React.Component {
           .forEach(option =>
             [].forEach.bind(option.conditions, condition => {
               conditionalAnswers[condition.questionId] = this.props.questionAnswers[condition.questionId];
+            }
+          )());
+      this.props.input.options
+          .filter(option => {
+            return typeof option.mappingConditions !== 'undefined'
+                     && option.mappingConditions.length > 0;
+          })
+          .forEach(option =>
+            [].forEach.bind(option.mappingConditions, condition => {
+              Object.keys(condition).forEach(questionId => {
+                mappingConditionalAnswers[questionId] = this.props.questionAnswers[questionId];
+              });
             }
           )());
     }
@@ -151,6 +164,7 @@ class Question extends React.Component {
                text={this.props.input.text}
                options={this.props.input.options}
                conditionalAnswers={conditionalAnswers}
+               mappingConditionalAnswers={mappingConditionalAnswers}
                placeholder={this.props.input.placeholder}
                required={this.props.input.required}
                classes={this.props.classes}

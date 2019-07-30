@@ -55,6 +55,7 @@ var Question = (function (_React$Component) {
        */
       var conditionalItems = [];
       var conditionalAnswers = {};
+      var mappingConditionalAnswers = {};
       if (typeof this.props.input.options !== 'undefined') {
         this.props.input.options.filter(function (option) {
           return _this.props.value instanceof Array ? _this.props.value.indexOf(option.value) > -1 : _this.props.value == option.value;
@@ -86,6 +87,15 @@ var Question = (function (_React$Component) {
         }).forEach(function (option) {
           return [].forEach.bind(option.conditions, function (condition) {
             conditionalAnswers[condition.questionId] = _this.props.questionAnswers[condition.questionId];
+          })();
+        });
+        this.props.input.options.filter(function (option) {
+          return typeof option.mappingConditions !== 'undefined' && option.mappingConditions.length > 0;
+        }).forEach(function (option) {
+          return [].forEach.bind(option.mappingConditions, function (condition) {
+            Object.keys(condition).forEach(function (questionId) {
+              mappingConditionalAnswers[questionId] = _this.props.questionAnswers[questionId];
+            });
           })();
         });
       }
@@ -135,6 +145,7 @@ var Question = (function (_React$Component) {
           text: this.props.input.text,
           options: this.props.input.options,
           conditionalAnswers: conditionalAnswers,
+          mappingConditionalAnswers: mappingConditionalAnswers,
           placeholder: this.props.input.placeholder,
           required: this.props.input.required,
           classes: this.props.classes,

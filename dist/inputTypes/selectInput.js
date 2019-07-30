@@ -36,34 +36,56 @@ var SelectInput = (function (_React$Component) {
       var _this = this;
 
       var options = this.props.options.map(function (opt) {
-        if (typeof opt.conditions !== 'undefined' && opt.conditions.length > 0) {
-          var _ret = (function () {
-            var c = 0;
-            opt.conditions.forEach(function (condition) {
-              if (_this.props.conditionalAnswers[condition.questionId] === condition.value) {
-                c++;
+        var isError = 0;
+        if (opt.mappingConditions !== undefined) {
+          var conditionCount = 0;
+          var conditionSuccessCount = 0;
+          opt.mappingConditions.forEach(function (condition) {
+            Object.keys(condition).forEach(function (questionId) {
+              if (_this.props.mappingConditionalAnswers[questionId] !== undefined) {
+                conditionCount += 1;
+                if (Array.isArray(condition[questionId]) && condition[questionId].indexOf(_this.props.mappingConditionalAnswers[questionId]) > -1) {
+                  conditionSuccessCount += 1;
+                } else if (!Array.isArray(condition[questionId]) && condition[questionId] === _this.props.mappingConditionalAnswers[questionId]) {
+                  conditionSuccessCount += 1;
+                }
               }
             });
-            if (opt.conditions.length == c) {
-              return {
-                v: React.createElement(
-                  'option',
-                  { key: opt.value,
-                    value: opt.value },
-                  opt.text
-                )
-              };
-            }
-          })();
+          });
+          if (conditionCount !== conditionSuccessCount) {
+            isError = 1;
+          }
+        }
+        if (!isError) {
+          if (typeof opt.conditions !== 'undefined' && opt.conditions.length > 0) {
+            var _ret = (function () {
+              var c = 0;
+              opt.conditions.forEach(function (condition) {
+                if (_this.props.conditionalAnswers[condition.questionId] === condition.value) {
+                  c++;
+                }
+              });
+              if (opt.conditions.length == c) {
+                return {
+                  v: React.createElement(
+                    'option',
+                    { key: opt.value,
+                      value: opt.value },
+                    opt.text
+                  )
+                };
+              }
+            })();
 
-          if (typeof _ret === 'object') return _ret.v;
-        } else {
-          return React.createElement(
-            'option',
-            { key: opt.value,
-              value: opt.value },
-            opt.text
-          );
+            if (typeof _ret === 'object') return _ret.v;
+          } else {
+            return React.createElement(
+              'option',
+              { key: opt.value,
+                value: opt.value },
+              opt.text
+            );
+          }
         }
       });
 
