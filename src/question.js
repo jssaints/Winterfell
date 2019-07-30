@@ -126,6 +126,15 @@ class Question extends React.Component {
                                    })
                              : [];
 
+    var validationInputErrors = typeof this.props.validationErrors[this.props.questionId] !== 'undefined'
+    ? this.props.validationErrors[this.props.questionId]
+          .map(error => {
+            return typeof this.props.renderError === 'function'
+                    ? this.props.renderError(error, this.props.questionId)
+                    : ' error';
+          })
+    : '';                             
+
     let labelId = `${this.props.questionId}-label`;
 
 	  var checked = (
@@ -135,7 +144,7 @@ class Question extends React.Component {
     ) ? true : false;
 
     return (
-      <div className={this.props.classes.question}>
+      <div className={this.props.classes.question + validationInputErrors}>
         {!!this.props.question
           ? (
               <label className={this.props.classes.label}
@@ -156,7 +165,6 @@ class Question extends React.Component {
               </p>
             )
           : undefined}
-        {validationErrors}
         <Input name={this.props.questionId}
                id={this.props.questionId}
                labelId={labelId}
@@ -176,6 +184,7 @@ class Question extends React.Component {
                      ? this.props.input.props
                      : {})}
         />
+        {validationErrors}
         {!!this.props.postText
           ? (
               <p className={this.props.classes.questionPostText}>
