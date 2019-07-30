@@ -14,6 +14,17 @@ var extraValidators = {
   },
 
   /*
+   * isWords Validation Mehod
+   */
+  isWords: function isWords(value, min, max) {
+    if (!value) {
+      return false;
+    }
+    var len = value.split(' ').length;
+    return len >= min && (typeof max === 'undefined' || len <= max);
+  },
+
+  /*
    * isAllIn Validation Method
    */
   isAllIn: function isAllIn(value, options) {
