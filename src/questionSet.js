@@ -40,6 +40,7 @@ class QuestionSet extends React.Component {
           mappingConditionalItems.push(
             <Question key={question.questionId}
                       questionSetId={this.props.id}
+                      questionContainerClass={question.questionContainerClass}
                       questionId={question.questionId}
                       question={question.question}
                       validateOn={question.validateOn}
@@ -63,6 +64,7 @@ class QuestionSet extends React.Component {
         return (
             <Question key={question.questionId}
                       questionSetId={this.props.id}
+                      questionContainerClass={question.questionContainerClass}
                       questionId={question.questionId}
                       question={question.question}
                       validateOn={question.validateOn}
@@ -86,9 +88,8 @@ class QuestionSet extends React.Component {
     function createMarkup(questionSetHtml) {
       return {__html: questionSetHtml};
     }
-
     return (
-      <div className={this.props.classes.questionSet}>
+      <div className={this.props.classes.questionSet + this.props.questionSetClass}>
         {typeof this.props.questionSetHeader !== 'undefined'
            || typeof this.props.questionSetText !== 'undefined'
            || typeof this.props.questionSetHtml !== 'undefined'
@@ -114,7 +115,7 @@ class QuestionSet extends React.Component {
              : undefined}
         {questions}
         {mappingConditionalItems}
-      </div>
+        </div>
     );
   }
 
@@ -129,6 +130,7 @@ QuestionSet.defaultProps = {
   questions              : [],
   questionAnswers        : {},
   classes                : {},
+  questionSetClass       : '',
   validationErrors       : {},
   renderError            : undefined,
   renderRequiredAsterisk : undefined,

@@ -37,9 +37,10 @@ var TextareaInput = (function (_React$Component) {
         name: this.props.name,
         id: this.props.id,
         'aria-labelledby': this.props.labelId,
-        className: this.props.classes.input,
+        className: this.props.classes.textAreaInput,
         placeholder: this.props.placeholder,
         value: this.state.value,
+        rows: this.props.rows,
         required: this.props.required ? 'required' : undefined,
         onChange: this.handleChange.bind(this),
         onBlur: this.props.onBlur.bind(null, this.state.value) });
@@ -58,7 +59,8 @@ TextareaInput.defaultProps = {
   value: '',
   placeholder: '',
   onChange: function onChange() {},
-  onBlur: function onBlur() {}
+  onBlur: function onBlur() {},
+  rows: 3
 };
 
 module.exports = TextareaInput;

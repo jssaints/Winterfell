@@ -126,7 +126,7 @@ class Winterfell extends React.Component {
             action={this.state.action}
             ref={ref => this.formComponent = ref}
             className={this.state.schema.classes.form}>
-        <div className={this.state.schema.classes.questionPanels}>
+        <div className={this.state.schema.classes.questionPanels + currentPanel.questionPanelClass}>
           <QuestionPanel schema={this.state.schema}
                          classes={this.state.schema.classes}
                          panelId={currentPanel.panelId}

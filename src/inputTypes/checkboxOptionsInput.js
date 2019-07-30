@@ -32,22 +32,24 @@ class CheckboxOptionsInput extends React.Component {
   render() {
     return (
       <ul className={this.props.classes.checkboxList}>
-        {this.props.options.map(opt =>
+        {this.props.options.map((opt,index) =>
           <li key={opt.value}
               className={this.props.classes.checkboxListItem}>
-            <label className={this.props.classes.checkboxLabel}
-                   id={this.props.labelId}>
               <input type="checkbox"
                      name={this.props.name}
                      aria-labelledby={this.props.labelId}
                      value={opt.value}
                      checked={this.state.value.indexOf(opt.value) > -1}
                      className={this.props.classes.checkbox}
+                     id={this.props.labelId+index}
                      required={this.props.required
                                  ? 'required'
                                  : undefined}
                      onChange={this.handleChange.bind(this, opt.value)}
-                     onBlur={this.props.onBlur.bind(null, this.state.value)} />
+                     onBlur={this.props.onBlur.bind(null, this.state.value)} />              
+            <label className={this.props.classes.checkboxLabel}
+                   id={this.props.labelId+index} for={this.props.labelId+index}>
+
               {opt.text}
             </label>
           </li>

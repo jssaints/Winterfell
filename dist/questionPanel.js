@@ -250,6 +250,7 @@ var QuestionPanel = (function (_React$Component2) {
           questionSetHtml: questionSet.questionSetHtml,
           questions: questionSet.questions,
           classes: _this3.props.classes,
+          questionSetClass: questionSet.questionSetClass,
           questionAnswers: _this3.props.questionAnswers,
           renderError: _this3.props.renderError,
           renderRequiredAsterisk: _this3.props.renderRequiredAsterisk,
@@ -272,9 +273,13 @@ var QuestionPanel = (function (_React$Component2) {
           'div',
           { className: this.props.classes.questionPanelHeaderContainer },
           typeof this.props.panelHeader !== 'undefined' ? React.createElement(
-            'h3',
+            'h2',
             { className: this.props.classes.questionPanelHeaderText },
-            this.props.panelHeader
+            React.createElement(
+              'b',
+              null,
+              this.props.panelHeader
+            )
           ) : undefined,
           typeof this.props.panelText !== 'undefined' ? React.createElement(
             'p',
@@ -285,7 +290,7 @@ var QuestionPanel = (function (_React$Component2) {
         ) : undefined,
         React.createElement(
           'div',
-          { className: this.props.classes.questionSets },
+          { className: this.props.classes.questionSets + this.props.questionPanelClass },
           questionSets
         ),
         React.createElement(
@@ -312,6 +317,7 @@ QuestionPanel.defaultProps = {
   schema: {},
   classes: {},
   panelId: undefined,
+  questionPanelClass: '',
   panelIndex: undefined,
   panelHeader: undefined,
   panelText: undefined,

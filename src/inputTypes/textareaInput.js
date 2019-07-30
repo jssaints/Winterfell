@@ -22,9 +22,10 @@ class TextareaInput extends React.Component {
                 name={this.props.name}
                 id={this.props.id}
                 aria-labelledby={this.props.labelId}
-                className={this.props.classes.input}
+                className={this.props.classes.textAreaInput}
                 placeholder={this.props.placeholder}
                 value={this.state.value}
+                rows={this.props.rows}
                 required={this.props.required
                             ? 'required'
                             : undefined}
@@ -42,7 +43,8 @@ TextareaInput.defaultProps = {
   value       : '',
   placeholder : '',
   onChange    : () => {},
-  onBlur      : () => {}
+  onBlur      : () => {},
+  rows        : 3
 };
 
 module.exports = TextareaInput;

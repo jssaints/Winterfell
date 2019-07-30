@@ -22,7 +22,7 @@ class TextInput extends React.Component {
              name={this.props.name}
              id={this.props.id}
              aria-labelledby={this.props.labelId}
-             className={this.props.classes.input}
+             className={this.props.classes.input + this.props.questionInputClass}
              placeholder={this.props.placeholder}
              value={this.state.value}
              required={this.props.required
