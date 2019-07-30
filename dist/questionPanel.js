@@ -19,8 +19,41 @@ var Button = require('./button');
 var QuestionSet = require('./questionSet');
 var evaluatePredicates = require('./lib/evaluatePredicates');
 
-var QuestionPanel = (function (_React$Component) {
-  _inherits(QuestionPanel, _React$Component);
+var QuestionSetWrapper = (function (_React$Component) {
+  _inherits(QuestionSetWrapper, _React$Component);
+
+  function QuestionSetWrapper() {
+    _classCallCheck(this, QuestionSetWrapper);
+
+    _get(Object.getPrototypeOf(QuestionSetWrapper.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(QuestionSetWrapper, [{
+    key: 'render',
+    value: function render() {
+      var questionSetWrapper = this.props.questionSetWrapper;
+      var questionSet = this.props.questionSet;
+      if (questionSetWrapper) {
+        var element = questionSetWrapper.element ? questionSetWrapper.element : 'div';
+        var children = React.createElement(QuestionSetWrapper, { questionSetWrapper: questionSetWrapper.children, questionSet: questionSet });
+        return React.createElement(element, { className: questionSetWrapper.className }, children);
+      } else {
+        return React.createElement(
+          React.Fragment,
+          null,
+          questionSet
+        );
+      }
+    }
+  }]);
+
+  return QuestionSetWrapper;
+})(React.Component);
+
+;
+
+var QuestionPanel = (function (_React$Component2) {
+  _inherits(QuestionPanel, _React$Component2);
 
   function QuestionPanel(props) {
     _classCallCheck(this, QuestionPanel);
@@ -209,7 +242,7 @@ var QuestionPanel = (function (_React$Component) {
           return undefined;
         }
 
-        return React.createElement(QuestionSet, { key: questionSet.questionSetId,
+        var questionSetComponent = React.createElement(QuestionSet, { key: questionSet.questionSetId,
           id: questionSet.questionSetId,
           name: questionSet.name,
           questionSetHeader: questionSet.questionSetHeader,
@@ -224,6 +257,8 @@ var QuestionPanel = (function (_React$Component) {
           onAnswerChange: _this3.handleAnswerChange.bind(_this3),
           onQuestionBlur: _this3.handleQuestionBlur.bind(_this3),
           onKeyDown: _this3.handleInputKeyDown.bind(_this3) });
+
+        return React.createElement(QuestionSetWrapper, { questionSetWrapper: questionSet.questionSetWrapper, questionSet: questionSetComponent });
       });
 
       function createMarkup(panelHtml) {

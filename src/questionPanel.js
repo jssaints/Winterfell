@@ -9,6 +9,24 @@ var Button = require('./button');
 var QuestionSet = require('./questionSet');
 var evaluatePredicates = require('./lib/evaluatePredicates');
 
+class QuestionSetWrapper extends React.Component {
+  render() {
+    const questionSetWrapper = this.props.questionSetWrapper;
+    const questionSet = this.props.questionSet;
+    if (questionSetWrapper) {
+      const element = questionSetWrapper.element ? questionSetWrapper.element : 'div';
+      const children = <QuestionSetWrapper questionSetWrapper={questionSetWrapper.children} questionSet={questionSet} />
+      return (
+        React.createElement(element, {className: questionSetWrapper.className}, children)
+      )
+    } else {
+      return (
+        <React.Fragment>{questionSet}</React.Fragment>
+      );
+    }
+  }
+};
+
 class QuestionPanel extends React.Component {
 
   constructor(props) {
@@ -190,22 +208,24 @@ class QuestionPanel extends React.Component {
         return undefined;
       }
 
+      const questionSetComponent = <QuestionSet key={questionSet.questionSetId}
+                                              id={questionSet.questionSetId}
+                                              name={questionSet.name}
+                                              questionSetHeader={questionSet.questionSetHeader}
+                                              questionSetText={questionSet.questionSetText}
+                                              questionSetHtml={questionSet.questionSetHtml}
+                                              questions={questionSet.questions}
+                                              classes={this.props.classes}
+                                              questionAnswers={this.props.questionAnswers}
+                                              renderError={this.props.renderError}
+                                              renderRequiredAsterisk={this.props.renderRequiredAsterisk}
+                                              validationErrors={this.state.validationErrors}
+                                              onAnswerChange={this.handleAnswerChange.bind(this)}
+                                              onQuestionBlur={this.handleQuestionBlur.bind(this)}
+                                              onKeyDown={this.handleInputKeyDown.bind(this)} />
+
       return (
-        <QuestionSet key={questionSet.questionSetId}
-          id={questionSet.questionSetId}
-          name={questionSet.name}
-          questionSetHeader={questionSet.questionSetHeader}
-          questionSetText={questionSet.questionSetText}
-          questionSetHtml={questionSet.questionSetHtml}
-          questions={questionSet.questions}
-          classes={this.props.classes}
-          questionAnswers={this.props.questionAnswers}
-          renderError={this.props.renderError}
-          renderRequiredAsterisk={this.props.renderRequiredAsterisk}
-          validationErrors={this.state.validationErrors}
-          onAnswerChange={this.handleAnswerChange.bind(this)}
-          onQuestionBlur={this.handleQuestionBlur.bind(this)}
-          onKeyDown={this.handleInputKeyDown.bind(this)} />
+        <QuestionSetWrapper questionSetWrapper={questionSet.questionSetWrapper} questionSet={questionSetComponent} />
       );
     });
 
