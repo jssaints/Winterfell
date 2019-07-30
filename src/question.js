@@ -56,26 +56,48 @@ class Question extends React.Component {
           })
           .forEach(option =>
             [].forEach.bind(option.conditionalQuestions, conditionalQuestion => {
-              conditionalItems.push(
-                <Question key={conditionalQuestion.questionId}
-                          questionSetId={this.props.questionSetId}
-                          questionContainerClass={conditionalQuestion.questionContainerClass}
-                          questionId={conditionalQuestion.questionId}
-                          question={conditionalQuestion.question}
-                          text={conditionalQuestion.text}
-                          postText={conditionalQuestion.postText}
-                          validateOn={conditionalQuestion.validateOn}
-                          validations={conditionalQuestion.validations}
-                          value={this.props.questionAnswers[conditionalQuestion.questionId]}
-                          input={conditionalQuestion.input}
-                          classes={this.props.classes}
-                          renderError={this.props.renderError}
-                          questionAnswers={this.props.questionAnswers}
-                          validationErrors={this.props.validationErrors}
-                          onAnswerChange={this.props.onAnswerChange}
-                          onQuestionBlur={this.props.onQuestionBlur}
-                          onKeyDown={this.props.onKeyDown} />
-              );
+              if (conditionalQuestion.questionSetId !== 'undefined') {
+                var QuestionSet = this._reactInternalFiber._debugOwner.elementType;
+                conditionalItems.push(
+                  <QuestionSet key={conditionalQuestion.questionSetId}
+                                id={conditionalQuestion.questionSetId}
+                                name={conditionalQuestion.name}
+                                questionSetHeader={conditionalQuestion.questionSetHeader}
+                                questionSetText={conditionalQuestion.questionSetText}
+                                questionSetHtml={conditionalQuestion.questionSetHtml}
+                                questions={conditionalQuestion.questions}
+                                questionSetClass={conditionalQuestion.questionSetClass}
+                                classes={this.props.classes}
+                                questionAnswers={this.props.questionAnswers}
+                                renderError={this.props.renderError}
+                                renderRequiredAsterisk={this.props.renderRequiredAsterisk}
+                                validationErrors={this.props.validationErrors}
+                                onAnswerChange={this.props.onAnswerChange}
+                                onQuestionBlur={this.props.onQuestionBlur}
+                                onKeyDown={this.props.onKeyDown} />
+                );
+              } else {
+                conditionalItems.push(
+                  <Question key={conditionalQuestion.questionId}
+                            questionSetId={this.props.questionSetId}
+                            questionContainerClass={conditionalQuestion.questionContainerClass}
+                            questionId={conditionalQuestion.questionId}
+                            question={conditionalQuestion.question}
+                            text={conditionalQuestion.text}
+                            postText={conditionalQuestion.postText}
+                            validateOn={conditionalQuestion.validateOn}
+                            validations={conditionalQuestion.validations}
+                            value={this.props.questionAnswers[conditionalQuestion.questionId]}
+                            input={conditionalQuestion.input}
+                            classes={this.props.classes}
+                            renderError={this.props.renderError}
+                            questionAnswers={this.props.questionAnswers}
+                            validationErrors={this.props.validationErrors}
+                            onAnswerChange={this.props.onAnswerChange}
+                            onQuestionBlur={this.props.onQuestionBlur}
+                            onKeyDown={this.props.onKeyDown} />
+                );
+              }
             }
           )());
       this.props.input.options

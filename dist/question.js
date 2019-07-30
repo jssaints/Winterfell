@@ -63,24 +63,44 @@ var Question = (function (_React$Component) {
           return typeof option.conditionalQuestions !== 'undefined' && option.conditionalQuestions.length > 0;
         }).forEach(function (option) {
           return [].forEach.bind(option.conditionalQuestions, function (conditionalQuestion) {
-            conditionalItems.push(React.createElement(Question, { key: conditionalQuestion.questionId,
-              questionSetId: _this.props.questionSetId,
-              questionContainerClass: conditionalQuestion.questionContainerClass,
-              questionId: conditionalQuestion.questionId,
-              question: conditionalQuestion.question,
-              text: conditionalQuestion.text,
-              postText: conditionalQuestion.postText,
-              validateOn: conditionalQuestion.validateOn,
-              validations: conditionalQuestion.validations,
-              value: _this.props.questionAnswers[conditionalQuestion.questionId],
-              input: conditionalQuestion.input,
-              classes: _this.props.classes,
-              renderError: _this.props.renderError,
-              questionAnswers: _this.props.questionAnswers,
-              validationErrors: _this.props.validationErrors,
-              onAnswerChange: _this.props.onAnswerChange,
-              onQuestionBlur: _this.props.onQuestionBlur,
-              onKeyDown: _this.props.onKeyDown }));
+            if (conditionalQuestion.questionSetId !== 'undefined') {
+              var QuestionSet = _this._reactInternalFiber._debugOwner.elementType;
+              conditionalItems.push(React.createElement(QuestionSet, { key: conditionalQuestion.questionSetId,
+                id: conditionalQuestion.questionSetId,
+                name: conditionalQuestion.name,
+                questionSetHeader: conditionalQuestion.questionSetHeader,
+                questionSetText: conditionalQuestion.questionSetText,
+                questionSetHtml: conditionalQuestion.questionSetHtml,
+                questions: conditionalQuestion.questions,
+                questionSetClass: conditionalQuestion.questionSetClass,
+                classes: _this.props.classes,
+                questionAnswers: _this.props.questionAnswers,
+                renderError: _this.props.renderError,
+                renderRequiredAsterisk: _this.props.renderRequiredAsterisk,
+                validationErrors: _this.props.validationErrors,
+                onAnswerChange: _this.props.onAnswerChange,
+                onQuestionBlur: _this.props.onQuestionBlur,
+                onKeyDown: _this.props.onKeyDown }));
+            } else {
+              conditionalItems.push(React.createElement(Question, { key: conditionalQuestion.questionId,
+                questionSetId: _this.props.questionSetId,
+                questionContainerClass: conditionalQuestion.questionContainerClass,
+                questionId: conditionalQuestion.questionId,
+                question: conditionalQuestion.question,
+                text: conditionalQuestion.text,
+                postText: conditionalQuestion.postText,
+                validateOn: conditionalQuestion.validateOn,
+                validations: conditionalQuestion.validations,
+                value: _this.props.questionAnswers[conditionalQuestion.questionId],
+                input: conditionalQuestion.input,
+                classes: _this.props.classes,
+                renderError: _this.props.renderError,
+                questionAnswers: _this.props.questionAnswers,
+                validationErrors: _this.props.validationErrors,
+                onAnswerChange: _this.props.onAnswerChange,
+                onQuestionBlur: _this.props.onQuestionBlur,
+                onKeyDown: _this.props.onKeyDown }));
+            }
           })();
         });
         this.props.input.options.filter(function (option) {
