@@ -6,20 +6,37 @@ class FileInput extends React.Component {
     super(props);
 
     this.state = {
-      value: this.props.value
+      value: this.props.value,
+      progress: 0
     };
   }
 
-  handleChange(file) {
+  handleChange(file, progress) {
     this.setState(
       {
         value: file
       },
-      this.props.onChange.bind(null, file)
+      this.props.onChange.bind(null, file, progress)
     );
   }
 
+  progressEvent(progressEvent) {
+    const percentCompleted = Math.round(
+      (progressEvent.loaded * 100) / progressEvent.total
+    );
+    this.setState({
+      progress: percentCompleted
+    });
+    this.forceUpdate();
+  }
+
   onDrop(files) {
+    const progress = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: this.progressEvent.bind(this)
+    };
     Object.assign(files[0], {
       preview: URL.createObjectURL(files[0])
     });
@@ -27,7 +44,7 @@ class FileInput extends React.Component {
       {
         value: files[0]
       },
-      this.props.onChange.bind(null, files[0])
+      this.props.onChange.bind(null, files[0], progress)
     );
   }
 
@@ -46,7 +63,8 @@ class FileInput extends React.Component {
       borderWidth: 2,
       borderColor: '#666',
       borderStyle: 'dashed',
-      borderRadius: 5
+      borderRadius: 5,
+      cursor: 'pointer'
     };
     const activeStyle = {
       borderStyle: 'solid',
@@ -58,15 +76,47 @@ class FileInput extends React.Component {
       borderColor: '#c66',
       backgroundColor: '#eee'
     };
+    const progressBar = {
+      float: 'left',
+      width: '0',
+      height: '100%',
+      fontSize: '12px',
+      lineHeight: '20px',
+      color: '#fff',
+      textAlign: 'center',
+      backgroundColor: '#337ab7',
+      WebkitBoxShadow: 'inset 0 -1px 0 rgba(0,0,0,.15)',
+      boxShadow: 'inset 0 -1px 0 rgba(0,0,0,.15)',
+      WebkitTransition: 'width .6s ease',
+      Otransition: 'width .6s ease',
+      transition: 'width .6s ease'
+    };
+    const progressWrapper = {
+      height: '10px',
+      marginTop: '10px',
+      width: '400px',
+      float: 'left',
+      overflow: 'hidden',
+      backgroundColor: '#f5f5f5',
+      borderRadius: '4px',
+      WebkitBoxShadow: 'inset 0 1px 2px rgba(0,0,0,.1)',
+      boxShadow: 'inset 0 1px 2px rgba(0,0,0,.1)'
+    };
+    progressBar.width = `${this.state.progress}%`;
+    let message = <span>Uploading ...</span>;
+    if (this.state.progress === 100) {
+      message = <span>Successfully uploaded</span>;
+    }
     return (
       <section>
         {this.state.value.preview && (
           <img src={this.state.value.preview} style={img} />
         )}
         <Dropzone
+          accept="image/*"
           multiple={false}
           name={this.props.name}
-          onDrop={this.onDrop}
+          onDrop={this.onDrop.bind(this)}
           onChange={this.handleChange.bind(this)}
         >
           {({
@@ -99,6 +149,14 @@ class FileInput extends React.Component {
             );
           }}
         </Dropzone>
+        {this.state.progress !== 0 && (
+          <React.Fragment>
+            <div style={progressWrapper}>
+              <div style={progressBar} />
+            </div>
+            <div style={{ clear: 'left' }}>{message}</div>
+          </React.Fragment>
+        )}
       </section>
     );
   }
