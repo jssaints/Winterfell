@@ -83,7 +83,8 @@ var FileInput = (function (_React$Component) {
         borderWidth: 2,
         borderColor: '#666',
         borderStyle: 'dashed',
-        borderRadius: 5
+        borderRadius: 5,
+        cursor: 'pointer'
       };
       var activeStyle = {
         borderStyle: 'solid',
