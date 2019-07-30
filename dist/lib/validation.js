@@ -128,8 +128,13 @@ var getActiveQuestions = function getActiveQuestions(questions, questionAnswers,
         if (typeof option.conditionalQuestions === 'undefined' || option.conditionalQuestions.length == 0 || questionAnswers[question.questionId] != option.value) {
           return;
         }
-
-        activeQuestions = getActiveQuestions(option.conditionalQuestions, questionAnswers, activeQuestions);
+        if (option.conditionalQuestions.length > 0 && option.conditionalQuestions[0].questionSetId !== undefined) {
+          option.conditionalQuestions.forEach(function (conditionalQuestions) {
+            activeQuestions = getActiveQuestions(conditionalQuestions.questions, questionAnswers, activeQuestions);
+          });
+        } else {
+          activeQuestions = getActiveQuestions(option.conditionalQuestions, questionAnswers, activeQuestions);
+        }
       });
     }
   });
