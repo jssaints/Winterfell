@@ -12,8 +12,8 @@ class FileInput extends React.Component {
 
   handleChange(e) {
     this.setState({
-      value : e.target.value
-    }, this.props.onChange.bind(null, e.target.value));
+      value : e.target.files[0]
+    }, this.props.onChange.bind(null, e.target.files[0]));
   }
 
   render() {

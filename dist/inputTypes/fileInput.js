@@ -27,8 +27,8 @@ var FileInput = (function (_React$Component) {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState({
-        value: e.target.value
-      }, this.props.onChange.bind(null, e.target.value));
+        value: e.target.files[0]
+      }, this.props.onChange.bind(null, e.target.files[0]));
     }
   }, {
     key: 'render',
