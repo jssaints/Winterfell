@@ -52,7 +52,7 @@ class SelectInput extends React.Component {
           let c = 0;
           opt.conditions
           .forEach(condition => {
-            if (this.props.conditionalAnswers[condition.questionId] === condition.value) {
+            if ((Array.isArray(condition.value) && condition.value.indexOf(this.props.conditionalAnswers[condition.questionId]) > -1) || (this.props.conditionalAnswers[condition.questionId] === condition.value)) {
               c++;
             }
           });

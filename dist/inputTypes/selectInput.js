@@ -61,7 +61,7 @@ var SelectInput = (function (_React$Component) {
             var _ret = (function () {
               var c = 0;
               opt.conditions.forEach(function (condition) {
-                if (_this.props.conditionalAnswers[condition.questionId] === condition.value) {
+                if (Array.isArray(condition.value) && condition.value.indexOf(_this.props.conditionalAnswers[condition.questionId]) > -1 || _this.props.conditionalAnswers[condition.questionId] === condition.value) {
                   c++;
                 }
               });
