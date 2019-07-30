@@ -57,7 +57,15 @@ class Question extends React.Component {
           .forEach(option =>
             [].forEach.bind(option.conditionalQuestions, conditionalQuestion => {
               if (conditionalQuestion.questionSetId !== 'undefined') {
-                var QuestionSet = this._reactInternalFiber._debugOwner.elementType;
+                // Todolist: .return.return.return
+                var QuestionSet;
+                //QuestionSet = this._reactInternalFiber._debugOwner.elementType;
+                if(this._reactInternalFiber._debugOwner !== undefined){
+                  console.log(this._reactInternalFiber);
+                  QuestionSet = this._reactInternalFiber._debugOwner.elementType;
+                }else{
+                  QuestionSet = this._reactInternalFiber.return.return.return.elementType;
+                }
                 conditionalItems.push(
                   <QuestionSet key={conditionalQuestion.questionSetId}
                                 id={conditionalQuestion.questionSetId}

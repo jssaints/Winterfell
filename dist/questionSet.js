@@ -28,9 +28,9 @@ var QuestionSet = (function (_React$Component) {
       var _this = this;
 
       var mappingConditionalItems = [];
-      var isError = 0;
       var questions = this.props.questions.map(function (question) {
         if (typeof question.mappingConditions !== 'undefined') {
+          var isError = 0;
           var conditionCount = 0;
           var conditionSuccessCount = 0;
           question.mappingConditions.forEach(function (condition) {
@@ -49,6 +49,7 @@ var QuestionSet = (function (_React$Component) {
             isError = 1;
           }
           if (!isError) {
+            console.log("isError", isError);
             mappingConditionalItems.push(React.createElement(Question, { key: question.questionId,
               questionSetId: _this.props.id,
               questionContainerClass: question.questionContainerClass,
